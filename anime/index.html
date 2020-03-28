@@ -5,15 +5,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather</title>
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 
 <body>
 
     <p id="pone">Введите город: <input id="pole" type="text">
         <button id="butt" onclick="press()">Узнать</button></p>
-    <p id="ptwo">Тут будет информация о погоде</p>
+    <!--<p id="ptwo">Тут будет информация о погоде</p>-->
+    <table id="info">
+        <tr><td>Город</td><td id="city"></td></tr>
+        <tr><td>Температура</td><td id="temperature"></td></tr>
+        <tr><td>По ощущению</td><td id="feelsLike"></td></tr>
+        <tr><td>Скорость ветра</td><td id="windSpeed"></td></tr>
+    </table>
 
     <script>
+
+        let info = document.getElementById("info");
 
         function press() {
             let city = document.getElementById('pole').value;
@@ -27,8 +36,18 @@
                 let response = await fetch(url);
                 let json = await response.json();
                 console.log(json.main.temp);
-                let temp = json.main.temp - 273.15;
-                ptwo.textContent = temp;
+                console.log(json.main.feels_like);
+                console.log(json.name);
+                console.log(json.wind.speed);
+                let temp = Math.trunc(json.main.temp - 273.15);
+                let feels_like = Math.trunc(json.main.feels_like - 273.15);
+                let name = json.name;
+                let wind_speed = json.wind.speed;
+                city.textContent = name;
+                temperature.textContent = temp + " °C";
+                feelsLike.textContent = feels_like + " °C";
+                windSpeed.textContent = wind_speed + " m/s";
+                info.style.visibility = "visible";
             }
 
 
