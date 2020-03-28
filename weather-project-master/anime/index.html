@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+</head>
+
+<body>
+
+    <p id="pone">Введите город: <input id="pole" type="text">
+        <button id="butt" onclick="press()">Узнать</button></p>
+    <p id="ptwo">Тут будет информация о погоде</p>
+
+    <script>
+
+        function press() {
+            let city = document.getElementById('pole').value;
+            let answer = document.getElementById('ptwo');
+            let key = "651cb76e91b6674c8165f3adff171f78";
+            let url = "https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=651cb76e91b6674c8165f3adff171f78"
+            my_weather(url);
+            }
+
+            async function my_weather(url) {
+                let response = await fetch(url);
+                let json = await response.json();
+                console.log(json.main.temp);
+                console.log(json.main.feels_like);
+                console.log(json.name);
+                console.log(json.wind.speed);
+                let temp = Math.trunc(json.main.temp - 273.15);
+                let feels_like = Math.trunc(json.main.feels_like - 273.15);
+                let name = json.name;
+                let windSpeed = json.wind.speed;
+                ptwo.textContent = "Город: " + name + " "
+                + "Температура: " + temp + " °C " 
+                + "По ощущениям: " + feels_like + " °C " 
+                + "Скорость ветра: " + windSpeed + " м/с";
+            }
+
+
+    </script>
+
+</body>
+
+</html>
